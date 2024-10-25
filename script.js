@@ -3,23 +3,24 @@
 // Select elements
 const video = document.getElementById('cameraFeed');
 const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 const recordButton = document.getElementById('recordButton');
 const downloadLink = document.getElementById('downloadLink');
-const ctx = canvas.getContext('2d');
 
-// Variables for MediaRecorder
 let mediaRecorder;
 let recordedChunks = [];
+let currentFacingMode = "user"; // Default to front camera
 
-// Initialize Camera and Use Front Camera by Default
+// Initialize Camera
 async function initCamera() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user" }
+      video: { facingMode: currentFacingMode }
     });
     video.srcObject = stream;
-    mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
 
+    // Set up media recorder
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
     mediaRecorder.ondataavailable = handleDataAvailable;
     mediaRecorder.onstop = saveRecording;
   } catch (error) {
@@ -27,7 +28,17 @@ async function initCamera() {
   }
 }
 
-// Capture Image Snapshot
+// Switch Camera
+async function switchCamera() {
+  currentFacingMode = currentFacingMode === "user" ? "environment" : "user";
+  if (video.srcObject) {
+    // Stop the current stream
+    video.srcObject.getTracks().forEach(track => track.stop());
+  }
+  initCamera(); // Restart the camera with the new facing mode
+}
+
+// Capture Image
 function captureImage() {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
@@ -46,14 +57,14 @@ function toggleRecording() {
   }
 }
 
-// Handle Recorded Data
+// Handle Data from MediaRecorder
 function handleDataAvailable(event) {
   if (event.data.size > 0) {
     recordedChunks.push(event.data);
   }
 }
 
-// Save Recording as Video File
+// Save Recording
 function saveRecording() {
   const blob = new Blob(recordedChunks, { type: 'video/webm' });
   const url = URL.createObjectURL(blob);

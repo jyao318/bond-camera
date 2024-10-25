@@ -12,8 +12,11 @@
     <video id="cameraFeed" autoplay></video>
     <canvas id="canvas" hidden></canvas>
     <img src="gun-barrel-overlay.png" alt="Gun Barrel Overlay" class="overlay" id="gunBarrelOverlay">
-    <button onclick="captureImage()">Capture</button>
-    <button id="recordButton" onclick="toggleRecording()">Start Recording</button>
+    <div class="button-container">
+      <button onclick="captureImage()">Capture</button>
+      <button id="recordButton" onclick="toggleRecording()">Start Recording</button>
+      <button onclick="switchCamera()">Switch Camera</button>
+    </div>
     <a id="downloadLink" style="display: none;">Download Video</a>
   </div>
   <script src="script.js"></script>
