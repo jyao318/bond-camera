@@ -11,13 +11,20 @@ const overlay = document.getElementById('gunBarrelOverlay');
 let mediaRecorder;
 let recordedChunks = [];
 let currentFacingMode = "environment"; // Default to back camera
+let stream; // To hold the video stream
 
 // Initialize Camera
 async function initCamera() {
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({
+    // Stop existing tracks if switching cameras
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+    }
+
+    stream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: currentFacingMode }
     });
+    
     video.srcObject = stream;
 
     // Set up media recorder
@@ -32,11 +39,7 @@ async function initCamera() {
 // Switch Camera
 async function switchCamera() {
   currentFacingMode = currentFacingMode === "user" ? "environment" : "user";
-  if (video.srcObject) {
-    // Stop the current stream
-    video.srcObject.getTracks().forEach(track => track.stop());
-  }
-  initCamera(); // Restart the camera with the new facing mode
+  await initCamera(); // Restart the camera with the new facing mode
 }
 
 // Capture Image Including Overlay
