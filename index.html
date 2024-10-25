@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bond Camera App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bond Camera App</h1>
+    <video id="cameraFeed" autoplay></video>
+    <canvas id="canvas" hidden></canvas>
+    <img src="gun-barrel-overlay.png" alt="Gun Barrel Overlay" class="overlay" id="gunBarrelOverlay">
+    <button onclick="captureImage()">Capture</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
