@@ -1,36 +1,37 @@
 /* style.css */
 
 body, html {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #111;
-    color: white;
-  }
-  
-  .container {
-    position: relative;
-    text-align: center;
-  }
-  
-  video, canvas, .overlay {
-    width: 100%;
-    height: auto;
-    max-width: 400px;
-    border-radius: 50%;
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    pointer-events: none;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #111;
+  color: white;
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  text-align: center;
+}
+
+video, canvas {
+  width: 100%;
+  height: auto;
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: auto;
+  max-height: 100vh;
+  aspect-ratio: 1910 / 1080; /* Keeps overlay at the correct aspect ratio */
+  object-fit: contain; /* Ensures the overlay maintains aspect ratio */
+  pointer-events: none;
+}

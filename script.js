@@ -5,10 +5,12 @@ const video = document.getElementById('cameraFeed');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-// Access the camera and display the live feed
+// Access the front camera and display the live feed
 async function initCamera() {
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "user" } // Defaults to the front camera
+    });
     video.srcObject = stream;
   } catch (error) {
     console.error("Camera access failed:", error);
