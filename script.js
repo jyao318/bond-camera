@@ -24,13 +24,15 @@ async function initCamera() {
     stream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: currentFacingMode }
     });
-    
+
     video.srcObject = stream;
 
     // Set up media recorder
     mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
     mediaRecorder.ondataavailable = handleDataAvailable;
     mediaRecorder.onstop = saveRecording;
+
+    console.log("Camera initialized with facing mode:", currentFacingMode); // Log facing mode
   } catch (error) {
     console.error("Camera access failed:", error);
   }
@@ -39,6 +41,7 @@ async function initCamera() {
 // Switch Camera
 async function switchCamera() {
   currentFacingMode = currentFacingMode === "user" ? "environment" : "user";
+  console.log("Switching camera to:", currentFacingMode); // Log switch action
   await initCamera(); // Restart the camera with the new facing mode
 }
 
