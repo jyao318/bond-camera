@@ -6,10 +6,11 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const recordButton = document.getElementById('recordButton');
 const downloadLink = document.getElementById('downloadLink');
+const overlay = document.getElementById('gunBarrelOverlay');
 
 let mediaRecorder;
 let recordedChunks = [];
-let currentFacingMode = "user"; // Default to front camera
+let currentFacingMode = "environment"; // Default to back camera
 
 // Initialize Camera
 async function initCamera() {
@@ -38,11 +39,12 @@ async function switchCamera() {
   initCamera(); // Restart the camera with the new facing mode
 }
 
-// Capture Image
+// Capture Image Including Overlay
 function captureImage() {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height); // Draw overlay on canvas
   canvas.hidden = false;
 }
 
