@@ -3,6 +3,7 @@
 // Select elements
 const video = document.getElementById('cameraFeed');
 const overlay = document.getElementById('gunBarrelOverlay');
+const backgroundMusic = document.getElementById('backgroundMusic');
 let stream;
 let currentFacingMode = "environment";
 
@@ -42,8 +43,24 @@ async function switchCamera() {
   await initCamera(); // Reinitialize with the new facing mode
 }
 
-// Initialize the camera on page load
-window.onload = initCamera;
+// Play background music with delay and loop control
+function playBackgroundMusic() {
+  setTimeout(() => {
+    backgroundMusic.play();
+  }, 5000); // Initial 5-second delay
+  
+  backgroundMusic.addEventListener('ended', () => {
+    setTimeout(() => {
+      backgroundMusic.play();
+    }, 15000); // 15-second delay after each playback ends
+  });
+}
+
+// Start background music loop when the page loads
+window.onload = () => {
+  initCamera();
+  playBackgroundMusic();
+};
 
 // Adjust video and overlay size on window resize or orientation change
 window.addEventListener('resize', adjustVideoSize);
