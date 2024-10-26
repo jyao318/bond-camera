@@ -1,9 +1,13 @@
-// script.js
-
 // Select elements
 const video = document.getElementById('cameraFeed');
-const overlay = document.getElementById('gunBarrelOverlay');
+const gunBarrelOverlay = document.getElementById('gunBarrelOverlay');
 const backgroundMusic = document.getElementById('backgroundMusic');
+
+// Create the red overlay element for the wipe effect
+const redOverlay = document.createElement('div');
+redOverlay.classList.add('red-overlay');
+document.body.appendChild(redOverlay);
+
 let stream;
 let currentFacingMode = "environment";
 
@@ -25,16 +29,17 @@ async function initCamera() {
   }
 }
 
-// Adjust Video Size based on Orientation
+// Adjust Video and Overlay Size based on Orientation
 function adjustVideoSize() {
-  // Detect orientation: landscape vs. portrait
   const isLandscape = window.innerWidth > window.innerHeight;
 
   video.style.width = isLandscape ? `${window.innerWidth}px` : `100vw`;
   video.style.height = isLandscape ? `100vh` : `${window.innerHeight}px`;
   
-  overlay.style.width = video.style.width; // Match overlay with video
-  overlay.style.height = video.style.height;
+  gunBarrelOverlay.style.width = video.style.width;
+  gunBarrelOverlay.style.height = video.style.height;
+  redOverlay.style.width = video.style.width; // Match red overlay with video
+  redOverlay.style.height = video.style.height;
 }
 
 // Switch Camera
@@ -47,16 +52,34 @@ async function switchCamera() {
 function playBackgroundMusic() {
   setTimeout(() => {
     backgroundMusic.play();
-  }, 5000); // Initial 5-second delay
+  }, 5000); // Start music after 5 seconds
   
   backgroundMusic.addEventListener('ended', () => {
     setTimeout(() => {
       backgroundMusic.play();
-    }, 15000); // 15-second delay after each playback ends
+    }, 15000); // Delay replay by 15 seconds
+    
+    resetOverlayEffect(); // Clear overlay at the end
+  });
+  
+  // Trigger wipe effect 8 seconds after music starts
+  backgroundMusic.addEventListener('play', () => {
+    setTimeout(() => {
+      startOverlayEffect();
+    }, 8000); // Start overlay effect 8 seconds in
   });
 }
 
-// Start background music loop when the page loads
+function startOverlayEffect() {
+  redOverlay.classList.add('wipeEffect');
+}
+
+// Reset the overlay effect by removing the animation class
+function resetOverlayEffect() {
+  redOverlay.classList.remove('wipeEffect');
+}
+
+// Start background music and initialize camera on page load
 window.onload = () => {
   initCamera();
   playBackgroundMusic();
