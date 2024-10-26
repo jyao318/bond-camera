@@ -60,6 +60,7 @@ function playBackgroundMusic() {
   if (!musicPlaying) {
     backgroundMusic.play();
     musicPlaying = true; // Update state to indicate music is playing
+    playButton.innerText = "Playing..."; // Change button text to Playing
     clearTimeout(musicTimeout); // Clear previous timeout if exists
 
     // Trigger wipe effect 8 seconds after music starts
@@ -70,6 +71,7 @@ function playBackgroundMusic() {
     backgroundMusic.addEventListener('ended', () => {
       musicPlaying = false; // Update state when music ends
       resetOverlayEffect(); // Clear overlay at the end
+      playButton.innerText = "Play"; // Reset button text to Play
     });
   }
 }
@@ -78,6 +80,12 @@ function playBackgroundMusic() {
 function toggleMute() {
   musicMuted = !musicMuted; // Toggle mute state
   backgroundMusic.muted = musicMuted; // Set mute state on audio element
+
+  if (musicMuted) {
+    muteButton.innerText = "Unmute"; // Change button text to Unmute
+  } else {
+    muteButton.innerText = "Mute"; // Change button text back to Mute
+  }
 }
 
 // Start overlay effect
@@ -92,7 +100,7 @@ function resetOverlayEffect() {
 
 // Start camera on page load
 window.onload = () => {
-  initCamera();
+  // Do not call initCamera here to avoid pop-up issue in Safari
 };
 
 // Adjust video and overlay size on window resize or orientation change
