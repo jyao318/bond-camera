@@ -4,9 +4,9 @@
 const video = document.getElementById('cameraFeed');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+const overlay = document.getElementById('gunBarrelOverlay');
 const recordButton = document.getElementById('recordButton');
 const downloadLink = document.getElementById('downloadLink');
-const overlay = document.getElementById('gunBarrelOverlay');
 
 let mediaRecorder;
 let recordedChunks = [];
@@ -16,7 +16,6 @@ let stream; // To hold the video stream
 // Initialize Camera
 async function initCamera() {
   try {
-    // Stop existing tracks if switching cameras
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
     }
@@ -32,17 +31,25 @@ async function initCamera() {
     mediaRecorder.ondataavailable = handleDataAvailable;
     mediaRecorder.onstop = saveRecording;
 
-    console.log("Camera initialized with facing mode:", currentFacingMode); // Log facing mode
+    // Ensure video fills screen on load
+    adjustVideoSize();
   } catch (error) {
     console.error("Camera access failed:", error);
   }
 }
 
+// Adjust Video Size on Orientation Change
+function adjustVideoSize() {
+  video.style.width = `${window.innerWidth}px`;
+  video.style.height = `${window.innerHeight}px`;
+  overlay.style.width = `${window.innerWidth}px`;
+  overlay.style.height = `${window.innerHeight}px`;
+}
+
 // Switch Camera
 async function switchCamera() {
   currentFacingMode = currentFacingMode === "user" ? "environment" : "user";
-  console.log("Switching camera to:", currentFacingMode); // Log switch action
-  await initCamera(); // Restart the camera with the new facing mode
+  await initCamera();
 }
 
 // Capture Image Including Overlay
@@ -86,3 +93,6 @@ function saveRecording() {
 
 // Initialize the camera on page load
 window.onload = initCamera;
+
+// Adjust video size whenever the window is resized or orientation changes
+window.addEventListener('resize', adjustVideoSize);
