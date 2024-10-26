@@ -71,12 +71,12 @@ function playBackgroundMusic() {
 }
 
 function startOverlayEffect() {
-  redOverlay.classList.add('wipeEffect');
+  redOverlay.style.transform = 'translateY(0)'; // Slide down the red overlay
 }
 
-// Reset the overlay effect by removing the animation class
+// Reset the overlay effect by moving it back up
 function resetOverlayEffect() {
-  redOverlay.classList.remove('wipeEffect');
+  redOverlay.style.transform = 'translateY(-100%)'; // Move it back up
 }
 
 // Start background music and initialize camera on page load
