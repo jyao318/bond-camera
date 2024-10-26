@@ -29,6 +29,11 @@ async function initCamera() {
       video: { facingMode: currentFacingMode }
     });
 
+    // Set attributes to ensure compatibility with iOS Safari
+    video.setAttribute('autoplay', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+
     video.srcObject = stream;
     adjustVideoSize(); // Resize immediately after camera loads
   } catch (error) {
