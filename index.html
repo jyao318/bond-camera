@@ -9,16 +9,13 @@
 <body>
   <div class="container">
     <h1>Bond Camera App</h1>
-    <video id="cameraFeed" autoplay muted></video> <!-- Ensure the video element is muted -->
+    <video id="cameraFeed" autoplay></video>
     <canvas id="canvas" hidden></canvas>
     <img src="gun-barrel-overlay.png" alt="Gun Barrel Overlay" class="overlay" id="gunBarrelOverlay">
     <div class="button-container">
-      <button id="startCameraButton" onclick="initCamera()">Start Camera</button> <!-- Start Camera Button -->
-      <button onclick="captureImage()">Capture</button>
-      <button id="recordButton" onclick="toggleRecording()">Start Recording</button>
+      <button id="playButton" onclick="playBackgroundMusic()">Play</button>
+      <button id="muteButton" onclick="toggleMute()">Mute</button>
       <button onclick="switchCamera()">Switch Camera</button>
-      <button id="muteButton" onclick="toggleMute()">Mute</button> <!-- Mute/Unmute Button -->
-      <button id="playButton" onclick="playBackgroundMusic()">Play</button> <!-- Play Music Button -->
     </div>
     <a id="downloadLink" style="display: none;">Download Video</a>
   </div>
